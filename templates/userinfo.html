@@ -12,7 +12,10 @@
                 <td>
                     <input name="username" type="text" value/>
                 </td>
-                <td>{{username_error}}</td>
+                <td>{% if username_error%}
+                    {{ username_error}}
+                    {% endif%}
+                </td>
             </tr>
             <tr>
                 <td>
