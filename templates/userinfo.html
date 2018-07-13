@@ -24,7 +24,9 @@
                 <td>
                     <input name="password" type="password" value/>
                 </td>
-                <td>{{password_error}}</td>
+                <td>{% if password_error %}
+                    {{ password_error}}
+                    {% endif %}</td>
             </tr>
             <tr>
                 <td>
@@ -34,7 +36,9 @@
                     <input name="password-verification" type="password" value/>
                 </td>
                 <td>
-                    {{password_verification_error}}
+                    {% if password_verification_error %}
+                    {{ password_verification_error}}
+                    {% endif%}
                 </td>
             </tr>
             <tr>
@@ -44,6 +48,9 @@
                 <td>
                     <input name="email" type="text" value/>
                 </td>
+                <td>{% if email_error %}
+                    {{ email_error}}
+                    {% endif %}</td>
             </tr>
             <tr>
                 <td>
@@ -59,6 +66,8 @@
   <p>
     {{ username_error }}
     {{ password_error }}
+    {{ password_verification_error}}
+    {{ email_error}}
 </p>
 {% endif %}
 

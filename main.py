@@ -16,6 +16,9 @@ def verification():
     password_verification = request.form['password-verification']
     password_verification_error = "It doesn't match!"
 
+    email = request.form['email']
+    email_error = 'Please enter a valid email'
+
 # Username testing
     if username == '':
         return render_template('/userinfo.html', username_error = username_error)
@@ -31,6 +34,21 @@ def verification():
         return render_template('/userinfo.html', password_error = password_error)
     if len(password) <3 or len(password) >20:
         return render_template('/userinfo.html', password_error = password_error)
+    if password != password_verification:
+        return render_template('/userinfo.html', password_verification_error = password_verification_error)
+
+# Email Testing
+    email_substring1, email_substring2 = email.split('@')
+
+    if email == '':
+        return render_template('/userinfo.html', email_error = email_error)
+    if len(email)<3 or len(email)>20:
+        return render_template('/userinfo.html', email_error = email_error)
+    if '@' not in email:
+        return render_template('/userinfo.html', email_error = email_error)
+    if '.' not in email_substring2:
+        return render_template('/userinfo.html', email_error = email_error)
+
 
     return render_template('/confirmation.html', username = username, username_error = '', password_error = '')
 
@@ -59,7 +77,6 @@ def index():
 # TODO: email cannot be empty; has a single @; has a single '.' after the @; 
 
 
-# This probably works
 @app.route('/confirmation', methods = ['POST'])
 def confirm_user():
     username = request.form['username']
