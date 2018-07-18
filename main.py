@@ -38,7 +38,7 @@ def verification():
         return render_template('/userinfo.html', password_verification_error = password_verification_error)
 
 # Email Testing
-    email_substring1, email_substring2 = email.split('@')
+    email_substring = email.split('@')
 
     if email == '':
         return render_template('/userinfo.html', email_error = email_error)
@@ -46,7 +46,7 @@ def verification():
         return render_template('/userinfo.html', email_error = email_error)
     if '@' not in email:
         return render_template('/userinfo.html', email_error = email_error)
-    if '.' not in email_substring2:
+    elif '.' not in email_substring[1]:
         return render_template('/userinfo.html', email_error = email_error)
 
 
