@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<form action = "/confirmation" method="post", "get">
+<form action = "/userinfo" method="post", "get">
     <table>
         <tbody>
             <tr>
@@ -12,9 +12,9 @@
                 <td>
                     <input name="username" type="text" value/>
                 </td>
-                <td>{% if username_error%}
+                <td>{% if username_error %}
                     {{ username_error}}
-                    {% endif%}
+                    {% endif %}
                 </td>
             </tr>
             <tr>
@@ -24,9 +24,10 @@
                 <td>
                     <input name="password" type="password" value/>
                 </td>
-                <td>{% if password_error %}
+                <td>{%if password_error%}
                     {{ password_error}}
-                    {% endif %}</td>
+                    {% endif %}
+                </td>
             </tr>
             <tr>
                 <td>

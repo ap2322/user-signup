@@ -5,8 +5,6 @@ app = Flask(__name__)
 
 app.config['DEBUG'] = True 
 
-
-
 @app.route("/", methods = ['GET', 'POST'])
 def index():   
 #    encoded_error = request.args.get("error")
@@ -23,59 +21,56 @@ def index():
 @app.route('/userinfo', methods = ['GET', 'POST'])
 def verification():
     username = request.form['username']
-    username_error = "Please enter a username greater than 3 and less than 20 characters without spaces."
-
     password = request.form['password']
-    password_error = "Your password sucks"
-
     password_verification = request.form['password-verification']
-    password_verification_error = "It doesn't match!"
-
     email = request.form['email']
-    email_error = 'Please enter a valid email'
+
+    username_error = ''
+    password_error = ''
+    password_verification_error = ''
+    email_error = ''  
 
 # Username testing
     if username == '':
-        return render_template('/userinfo.html', username_error = username_error)
+        username_error = "Please enter a username greater than 3 and less than 20 characters without spaces."
     if ' ' in username:
-        return render_template('/userinfo.html', username_error = username_error)
+        username_error = "Please enter a username greater than 3 and less than 20 characters without spaces."
     if len(username) < 3 or len(username) >20:
-        return render_template('/userinfo.html', username_error = username_error)
+        username_error = "Please enter a username greater than 3 and less than 20 characters without spaces."
 
 # Password testing
     if password == '':
-        return render_template('/userinfo.html', password_error = password_error)
+        password_error = "Your password sucks"
     if ' ' in password:
-        return render_template('/userinfo.html', password_error = password_error)
+        password_error = "Your password sucks"
     if len(password) <3 or len(password) >20:
-        return render_template('/userinfo.html', password_error = password_error)
+        password_error = "Your password sucks"
     if password != password_verification:
-        return render_template('/userinfo.html', password_verification_error = password_verification_error)
-
+        password_verification_error = "It doesn't match!"
+    
 # Email Testing
-    email_substring1, email_substring2 = email.split('@')
+    email_substring = email.split('@')
 
     if email == '':
-        return render_template('/userinfo.html', email_error = email_error)
+        email_error = 'Please enter a valid email'
     if len(email)<3 or len(email)>20:
-        return render_template('/userinfo.html', email_error = email_error)
+        email_error = 'Please enter a valid email'
     if '@' not in email:
-        return render_template('/userinfo.html', email_error = email_error)
-    if '.' not in email_substring2:
-        return render_template('/userinfo.html', email_error = email_error)
+        email_error = 'Please enter a valid email'
+    elif '.' not in email_substring[1]:
+        email_error = 'Please enter a valid email'
 
 
-    return render_template('/confirmation.html', username = username, username_error = '', password_error = '')
+    if username_error or password_error or password_verification_error or email_error:
+        return render_template('/userinfo.html', 
+            email_error = email_error,
+            username_error = username_error,
+            password_error = password_error,
+            password_verification_error = password_verification_error,
+            )
 
-# TODO: make a verification function for each field: username, password, verify password
-# email
 
-# TODO: Each verification function shcould check for blanks, contains a space, is <3 or >20
-#   characters
-
-# TODO: password and verify password must match
-
-# TODO: email cannot be empty; has a single @; has a single '.' after the @; 
+    return render_template('/confirmation.html', username = username)
 
 
 @app.route('/userinfo', methods = ['POST'])
